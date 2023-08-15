@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mjdiazc.springboot.web.app.models.Usuario;
@@ -14,13 +15,13 @@ import com.mjdiazc.springboot.web.app.models.Usuario;
 @Controller
 @RequestMapping("/app")
 public class IndexController {
-	
-	@GetMapping({"/index", "/", "", "/home"})
+
+	@GetMapping({ "/index", "/", "", "/home" })
 	public String index(Model model) {
 		model.addAttribute("titulo", "Hola Spring Framework con Model!");
 		return "index";
 	}
-	
+
 	@RequestMapping("/perfil")
 	public String perfil(Model model) {
 		Usuario usuario = new Usuario();
@@ -31,16 +32,22 @@ public class IndexController {
 		model.addAttribute("titulo", "Perfil del usuario: ".concat(usuario.getNombre()));
 		return "perfil";
 	}
-	
+
 	@RequestMapping("/listar")
 	public String listar(Model model) {
-		List<Usuario> usuarios = Arrays.asList(new Usuario("Maria Jose","Diaz", "mjdiazca@gmail.com"),
-				new Usuario("Natali","Diaz", "nAtidiaz37@gmail.com"),
-				new Usuario("Juliette","Diaz", "julijuli@gmail.com"),
-				new Usuario("Montserrat","Robles", "monrobles@gmail.com"));
 		model.addAttribute("titulo", "Listado de usuarios: ");
-		model.addAttribute("usuarios",usuarios);
+
 		return "listar";
 	}
-	
+
+	@ModelAttribute("usuarios")
+	public List<Usuario> poblarUsuarios() {
+		List<Usuario> usuarios = Arrays.asList(new Usuario("Maria Jose", "Diaz", "mjdiazca@gmail.com"),
+				new Usuario("Natali", "Diaz", "nAtidiaz37@gmail.com"),
+				new Usuario("Juliette", "Diaz", "julijuli@gmail.com"),
+				new Usuario("Montserrat", "Robles", "monrobles@gmail.com"));
+		
+		return usuarios;
+	}
+
 }
